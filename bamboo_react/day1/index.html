@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>bamboo day1 </title>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <script type="text/babel">
+      var HelloWorld = React.createClass({
+        render:function(){
+          console.log("bamboo"+this);
+          console.dir(this);
+          return <h1>{this.props.name}Hello World</h1>;
+        }
+      });
+      React.render(<HelloWorld name="React 我来了！！！" age = "18"/>,document.getElementById('container'));
+    </script>
+  </body>
+</html>
