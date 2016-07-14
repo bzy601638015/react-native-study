@@ -6,18 +6,168 @@
   </head>
   <body>
     <div id="container"></div>
+    <div id="container_2"></div>
+    <div id="container_3"></div>
+    <Text >组件</Text>
+    <div id="container_4"></div>
+    <div id="container_5"></div>
+    <div id="container_6"></div>
+    <div id="container_7"></div>
+    <div id="container_8"></div>
     <script src="../build/react.js"></script>
     <script src="../build/react-dom.js"></script>
     <script src="../build/browser.min.js"></script>
     <script type="text/babel">
-      var HelloWorld = React.createClass({
-        render:function(){
-          console.log("bamboo"+this);
-          console.dir(this);
-          return <h1>{this.props.name}Hello World</h1>;
+      // var HelloWorld = React.createClass({
+      //   render:function(){
+      //     console.log("bamboo"+this);
+      //     console.dir(this);
+      //     return <h1>{this.props.name}Hello World</h1>;
+      //   }
+      // });
+      // React.render(<HelloWorld name="React 我来了！！！" age = "18"/>,document.getElementById('container'));
+
+      ReactDOM.render(
+            <h1>Hello World</h1>,
+            document.getElementById('container')
+        );
+
+      var names = ['bamboo','zhiyuan'];
+      ReactDOM.render(<div>{
+        names.map(function(name){
+          return <div>Hello,{name}</div>
+        })
+      }</div>
+        ,document.getElementById('container_2'));
+
+      var arr=[
+      <h1>Hello world!</h1>,
+      <h2>React is awesome</h2>];
+      ReactDOM.render(<div>{arr}</div>,
+        document.getElementById('container_3'));
+      //组件
+      var HelloMessage = React.createClass({
+        render : function(){
+          return <h1>Hello {this.props.name}</h1>;
         }
       });
-      React.render(<HelloWorld name="React 我来了！！！" age = "18"/>,document.getElementById('container'));
+      ReactDOM.render(<HelloMessage name="John"/>,
+        document.getElementById('container_4'));
+
+      var NoteList = React.createClass({
+        render: function(){
+          return (
+              <ol>
+                {
+                  React.Children.map(this.props.children,function(child){
+                    return <li>{child}</li>
+                  })
+                }
+              </ol>
+            );
+        }
+      });
+      ReactDOM.render(
+        <NoteList>
+          <span>hello</span>
+          <span>world</span>
+        </NoteList>,
+        document.getElementById('container_5'));
+
+        //PropTypes
+        var MyTitle = React.createClass({
+          getDefaultProps:function(){
+            return {
+              title: 'bamboo xx'
+            };
+          },
+          propTypes : {
+            title: React.PropTypes.string.isRequired,
+          },
+          render:function(){
+            return <h1>{this.props.title}</h1>
+          }
+        });
+
+        var data = '123';
+        ReactDOM.render(<MyTitle/>,
+          document.getElementById('container_6'));
+
+        //获取真实的dom节点
+        var MyComponent = React.createClass({
+          handleClick:function(){
+            this.refs.myTextInput.focus();
+          },
+          render:function(){
+            return (
+                <div>
+                  <input type="text" ref = "myTextInput"/>
+                  <input type="button" value="focus the text input" onClick={this.handleClick}/>
+                </div>
+              );
+          }
+        });
+        ReactDOM.render(
+          <MyComponent />,
+          document.getElementById('container_7'));
+
+        //this.state
+        var LikeButton = React.createClass({
+          getInitialState:function(){
+            return {liked:false};
+          },
+          handleClick:function(event){
+            this.setState({liked: !this.state.liked});
+          },
+          render:function(){
+            var text = this.state.liked ? 'like' : 'haven\'t liked';
+            return (
+              <p onClick={this.handleClick}>
+                you {text} this. click to toggle.
+              </p>);
+          }
+        });
+        ReactDOM.render(
+          <LikeButton />,
+          document.getElementById('container_8'));
     </script>
   </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
