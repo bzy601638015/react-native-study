@@ -30,9 +30,13 @@
         componentWillReceiveProps:function(){
           console.log('componentWillReceiveProps');
         },
-        // shouldComponentUpdate:function(){
-        //   console.log('shouldComponentUpdate');
-        // },
+        shouldComponentUpdate:function(nextProps,nextState){
+          console.log('shouldComponentUpdate');
+          console.dir(nextProps);
+          console.dir(nextState);
+          // return nextProps.id !== this.props.id;
+          return this.state.count+1 == nextState.count;
+        },
         componentWillUpdate:function(){
           console.log('componentWillUpdate');
         },
