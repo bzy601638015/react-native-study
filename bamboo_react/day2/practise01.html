@@ -66,24 +66,27 @@
       });
 
       var SearchBar = React.createClass({
-        handleChange:function(){
-          this.props.onUserInput(
-            this.refs.filterTextInput.getDOMNode().value,
-            this.refs.inStockOnlyInput.getDOMNode().checked
-          );
+        handleChange:function(e){
+          console.log(this.refs.textinput.value);
+          // this.props.onUserInput(
+          //   // this.refs.textinput.value,
+          //   // this.refs.onlyinput.checked
+          //   e.target.value,
+          //   e.target.checked
+          // );
         },
         render:function(){
           return (
             <form>
             <input
-                ref = "filterTextInput"
+                ref = "textinput"
                 type="text"
                 placeholder ="Search..."
                 value={this.props.filterText}
                 onChange={this.handleChange}/>
             <p>
               <input
-                  ref ="inStockOnlyInput"
+                  ref ="onlyinput"
                   type="checkbox"
                   checked={this.props.inStockOnly}
                   onChange={this.handleChange}/>

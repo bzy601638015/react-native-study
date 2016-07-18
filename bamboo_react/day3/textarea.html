@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <script type="text/babel">
+        var Editer = React.createClass({
+          getInitialState:function () {
+            return {value:"你可以在这里输入文字！！！"};
+          },
+          handleChange:function(){
+            this.setState({value:ReactDOM.findDOMNode(this.refs.textarea).value});
+          },
+          render:function(){
+              return (
+                <div>
+                  <textarea rows="3" cols="20"
+                  defaultValue={this.state.value}
+                  onChange={this.handleChange}
+                  ref="textarea"/>
+                  <h3>输出</h3>
+                  <div>{this.state.value}</div>
+                </div>
+              );
+          }
+        });
+
+        ReactDOM.render(<Editer/>,document.getElementById('container'));
+    </script>
+  </body>
+</html>
