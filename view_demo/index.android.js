@@ -11,30 +11,109 @@ import {
   Text,
   View,
   PixelRatio,
+  Navigator,
+  ToastAndroid,
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 
 const Header = require('./header');
+const TextInputDemo = require('./app/inputtext');
+const PickerDemo = require('./app/picker');
+const ProgressBarDemo = require('./app/progressbar');
+const DrawerLayoutDemo = require('./app/drawerlayout');
+const ViewPagerDemo = require('./app/viewpager');
+
+class NavigatorDemo extends Component{
+  render(){
+    let defaultName='firstName';
+    let defaultComponent = view_demo;
+    return(
+      <Navigator
+        initialRoute={{name:defaultName,component:defaultComponent}}
+        // configureScene={
+        //   (route,navigator) => {
+        //     return Navigator.SceneConfigs.VerticalDownSwipeJump;
+        //   }
+        // }
+        renderScene = {
+          (route,navigator)=>{
+            let Component = route.component;
+            return <Component {...route.params} navigator={navigator}/>
+          }
+        }
+      />
+    );
+  }
+}
 
 class view_demo extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={};
+  }
+
+  _pressBotton(){
+    const {navigator} = this.props;
+    if(navigator){
+      navigator.push({
+        name:'detail',
+        component:Detail,
+      });
+    }
+  }
+
+_pressTextInput(){
+  const {navigator} = this.props;
+  if(navigator){
+    navigator.push({
+      name:'textinputdemo',
+      component:TextInputDemo,
+    });
+  }
+}
+
+_click(title){
+  ToastAndroid.show(title,ToastAndroid.SHORT);
+}
+
   render() {
     return (
       <View style={styles.flex}>
         <Header/>
         <List title='第一行'></List>
         <List title='第二行'></List>
+        <Text onPress={this._pressBotton.bind(this)}>点击</Text>
+        <Text onPress={this._pressTextInput.bind(this)}> 查看 TextInput 例子</Text>
         <ImportantNews news={[
           '一',
           '二',
           '三'
         ]}></ImportantNews>
+
+        <TouchableOpacity
+          onPress={this._click.bind(this,"图片")}
+          activeOpacity={0.7}>
+          <Image
+            source={{uri:'ic_launcher'}}
+            style={{width:48,height:48}}
+          />
+        </TouchableOpacity>
         <View style={styles.container}>
-          <View style={[styles.item,styles.center]}>
-            <Text style={styles.font}>酒店</Text>
-          </View>
+          <TouchableHighlight onPress={this._click.bind(this,'酒店')}
+            underlayColor="#f06292"
+            style={[styles.item,styles.center]}>
+                <Text style={styles.font}>酒店</Text>
+          </TouchableHighlight>
           <View style={[styles.item,styles.lineLeftRight]}>
-            <View style={[styles.flex,styles.center,styles.lineBottom]}>
-              <Text style={styles.font}>海外酒店</Text>
-            </View>
+            <TouchableOpacity style={[styles.flex,styles.center,styles.lineBottom]}
+              onPress={this._click.bind(this,'海外酒店')}
+              activeOpacity={0.8}
+              >
+                <Text style={styles.font}>海外酒店</Text>
+            </TouchableOpacity>
             <View style={[styles.flex,styles.center]}>
               <Text style={styles.font}>特惠酒店</Text>
             </View>
@@ -65,7 +144,8 @@ class List extends Component{
 //今日新闻
 class ImportantNews extends Component{
   show(title){
-    alert(title);
+    // alert(title);
+    ToastAndroid.show(title,ToastAndroid.SHORT);
   }
   render(){
     var news =[];
@@ -82,9 +162,9 @@ class ImportantNews extends Component{
       news.push(text);
     }
     return (
-      <View }>
-        <View style={{paddingLeft:20,backgroundColor:'red'>
-          <Text}>今日要闻</Text>
+      <View>
+        <View style={{paddingLeft:20,backgroundColor:'red'}}>
+          <Text>今日要闻</Text>
         </View>
         {news}
       </View>
@@ -92,6 +172,23 @@ class ImportantNews extends Component{
   }
 }
 
+class Detail extends Component{
+  _back(){
+    const {navigator} = this.props;
+    if(navigator){
+      navigator.pop();
+    }
+  }
+  render(){
+    return (
+      <View>
+        <Header/>
+        <Text onPress={this._back.bind(this)}>返回</Text>
+        <Text>详情页</Text>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -104,7 +201,7 @@ const styles = StyleSheet.create({
     padding:2,
     marginLeft:5,
     marginRight:5,
-    marginTop:200
+    // marginTop:200
   },
   item:{
     flex:1,
@@ -138,4 +235,4 @@ const styles = StyleSheet.create({
 
 });
 
-AppRegistry.registerComponent('view_demo', () => view_demo);
+AppRegistry.registerComponent('view_demo', () => ViewPagerDemo);
